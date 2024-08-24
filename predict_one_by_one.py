@@ -134,7 +134,7 @@ class VideoClassificationLightningModule(pytorch_lightning.LightningModule):
         self.av_model = make_deepfake_vitb()
         if use_pretrained_model:
             # https://dl.fbaipublicfiles.com/pytorchvideo/model_zoo/kinetics/MVIT_B_16x4.pyth kinetics400 pretrained
-            model_state = torch.load("/nasdata2/private/zwlu/classify/Kaggle/deepfake_adv/MVIT_B_16x4.pyth")["model_state"]
+            model_state = torch.load("MVIT_B_16x4.pyth")["model_state"]
             del model_state["head.proj.weight"]
             del model_state["head.proj.bias"]
             del model_state["cls_positional_encoding.pos_embed_spatial"]
@@ -546,4 +546,14 @@ class VideoPredictor():
                 fake_prob = one_[1].item()
                 outputs.append(fake_prob)
         return outputs
+    
+if __name__ == "__main__":
+    torch.set_float32_matmul_precision('high')
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.description='Train or Test'
+    parser.add_argument("data", type=str, help="dataset root path")
+    
+    args = parser.parse_args()
+    
     

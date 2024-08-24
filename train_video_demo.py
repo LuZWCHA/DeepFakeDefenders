@@ -350,10 +350,10 @@ class DeepFakeDataModule(pytorch_lightning.LightningDataModule):
         )
 
         test_dataset = deepfake_video(
-            data_path=os.path.join(self.testset_root, "testset1seen.csv"),
+            data_path=os.path.join(self.testset_root, "test.csv"),
             clip_sampler=pytorchvideo.data.make_clip_sampler("uniform", self._CLIP_DURATION),
             transform=val_transform,
-            video_path_prefix=os.path.join(self.testset_root, "testset1seen"),
+            video_path_prefix=os.path.join(self.testset_root, "test"),
             iteration_dataset=True
         )
         return torch.utils.data.DataLoader(
@@ -522,9 +522,9 @@ class VideoClassificationLightningModule(pytorch_lightning.LightningModule):
 
 def train():
     import pytorch_lightning.loggers as pl_loggers
-    name = "AV_ViTB"
-    tb_logger = pl_loggers.TensorBoardLogger(save_dir="logs/", name=name)
-    csv_logger = pl_loggers.CSVLogger(save_dir="logs/", name=name)
+    name = "Dual-MViT-B"
+    tb_logger = pl_loggers.TensorBoardLogger(save_dir="logs/", name=name, version=0)
+    csv_logger = pl_loggers.CSVLogger(save_dir="logs/", name=name, version=0)
     # trainer = Trainer(logger=[tb_logger, comet_logger])
     from pytorch_lightning.callbacks import ModelCheckpoint
 
@@ -536,10 +536,10 @@ def train():
     trainer = pytorch_lightning.Trainer(callbacks=[checkpoint_callback], logger=[tb_logger, csv_logger], max_epochs=10, precision="16-mixed", val_check_interval=1/4)
     trainer.fit(classification_module, data_module)
 
-def test():
+def test(ck_path):
     import pytorch_lightning.loggers as pl_loggers
-    tb_logger = pl_loggers.TensorBoardLogger(save_dir="logs/")
-    csv_logger = pl_loggers.CSVLogger(save_dir="logs/")
+    tb_logger = pl_loggers.TensorBoardLogger(save_dir="logs/", name="MViT-B")
+    csv_logger = pl_loggers.CSVLogger(save_dir="logs/", name="MViT-B")
     # trainer = Trainer(logger=[tb_logger, comet_logger])
     from pytorch_lightning.callbacks import ModelCheckpoint
 
@@ -550,12 +550,28 @@ def test():
     trainer = pytorch_lightning.Trainer(callbacks=[checkpoint_callback], logger=[tb_logger, csv_logger], max_epochs=10, precision="16-mixed", val_check_interval=1/4)
     # best 0.7009264881 1) version_80 step=1260, pretrain 2) load pretrain and train epoch=4-step=22688 3) version_108/checkpoints/epoch=4-step=22688.ckpt
     # trainer.test(classification_module, data_module, ckpt_path="logs/AV_ViTB/version_108/checkpoints/epoch=4-step=22688.ckpt")
-    trainer.test(classification_module, data_module, ckpt_path="epoch=3-step=20166.ckpt")
+    trainer.test(classification_module, data_module, ckpt_path=ck_path)
     # trainer.predict()
 
 
 if __name__ == "__main__":
     torch.set_float32_matmul_precision('high')
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.description='Train or Test'
+    parser.add_argument("data", type=str, help="dataset root path")
+    parser.add_argument("-m", "--mode", help="train or test", type=str, choices=["test", "train"], default="train")
+    parser.add_argument("-c", "--checkpoint", help="checkpoint path", type=str, default="epoch=3-step=20166.ckpts")
     
-    # train()
-    test()
+    args = parser.parse_args()
+    
+    if args.data and os.path.exists(args.data):
+        DeepFakeDataModule._DATA_PATH = args.data
+        DeepFakeDataModule.testset_root = args.data
+    else:
+        raise RuntimeError("Please input a valide dataset root path")
+    
+    if args.mode in ["train"]:
+        train()
+    elif args.mode in ["test"]:
+        test(args.checkpoint)
