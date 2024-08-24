@@ -23,7 +23,7 @@ path/to/dataset
 
 ```
 
-The **csv** file content looks like:
+The **csv** file contents looks like:
 ```python
 video_name,target
 4663658dbe76be9de4d616b573546a0c.mp4,0
@@ -32,5 +32,9 @@ video_name,target
 7d27e58b3a8273a7ee5f9efd5440fd4f.mp4,0
 ```
 
+# Test
 
 
+## Checkpoint
+best checkpoint on public testset, ROC-AUC: 0.722c\
+链接: https://pan.baidu.com/s/1vl3wWNbzuVp737zzwSqk1w?pwd=6xme

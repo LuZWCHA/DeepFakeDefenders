@@ -37,7 +37,7 @@ import torchmetrics
 from models.av_vit import get_deepfake_av_model
 
 
-
+T = 16
 class MyResult():
     
     def __init__(self, ):
@@ -191,7 +191,7 @@ class DeepFakeDataModule(pytorch_lightning.LightningDataModule):
         'Random'), for 'val' mode we use the respective determinstic function.
         """
         # args = self.args
-        video_num_subsampled = 20
+        video_num_subsampled = T + 4
         if mode == "val":
             video_num_subsampled -= 4
         video_means, video_stds = (0.45, 0.45, 0.45), (0.225, 0.225, 0.225)
