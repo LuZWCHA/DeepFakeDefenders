@@ -43,7 +43,7 @@ path/to/dataset
 ```
 
 The **csv** file contents looks like:
-```csv
+```sql
 video_name,target
 4663658dbe76be9de4d616b573546a0c.mp4,0
 8fedbd1856eb89741d7488247f05d7e8.mp4,0
@@ -52,9 +52,9 @@ video_name,target
 ...
 ```
 
-## Run Scrips
+### Run Scrips
 
-*Recommend!*
+***Recommend!***
 ``` bash
 python train_video_demo.py path/to/dataset_root -m train
 ```
@@ -69,7 +69,7 @@ The output logs'/checkpoints' location is ```logs/Dual-MViT-B/``` .
 
 
 # Test
-Many test ways are provide here, test by mulit-process datasetloader or a predictor one by one(much slower, 6x time on my hardware...)
+Some test codes are provided here, [test by mulit-process datasetloader] or [a predictor one by one(much slower, 6x time on my hardware...)]
 ## Test by datasetloader
 
 ### Prepare the dataset dir
@@ -82,7 +82,7 @@ path/to/dataset
 ...
 ```
 As same as the train stage, the test csv looks like below lines:
-```python
+``` sql
 video_name,target
 4663658dbe76be9de4d616b573546a0c.mp4,0
 8fedbd1856eb89741d7488247f05d7e8.mp4,0
@@ -99,9 +99,8 @@ Download the BaiduDisk's checkpoint (scroll down the the download link) and put 
 python train_video_demo.py path/to/dataset_root -m test -c path/to/checkpoint
 ```
 
-
 ## Test by predictor (One by One Example)
-This is an ```example.py``` to show how to use the predictor, the details is in ```predict_one_by_one.py```
+This is an ```example.py``` (this file is under the project root) to show how to use the predictor, the details is in ```predict_one_by_one.py```
 
 ``` python
 # example.py
@@ -146,9 +145,9 @@ pd.DataFrame(submit_csv).to_csv(output_csv, index=False)
 
 ```
 ## Check the results
-Below results is from public testset, compare the results to confirm the test steps.
+The follow results are test in my local server on public testset, compare the results to confirm the test steps.
 > 通过下方缩略文档来检查环境和模型推理是否正确。以下为公开测试集部分数据的本地推理结果。请检查每个输出的误差来确认硬件和软件环境是否会导致较大的精度误差。
-``` csv
+``` sql
 video_name,y_pred
 ebda0cb17c9bc4e9818c9250360b7909.mp4,0.9993643164634703
 639954dde40d384708f24213dca21b11.mp4,0.2968801259994507
