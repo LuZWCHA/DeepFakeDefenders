@@ -522,7 +522,7 @@ class VideoClassificationLightningModule(pytorch_lightning.LightningModule):
 
 def train():
     import pytorch_lightning.loggers as pl_loggers
-    name = "AV_ViTB"
+    name = "Dual-MViT-B"
     tb_logger = pl_loggers.TensorBoardLogger(save_dir="logs/", name=name)
     csv_logger = pl_loggers.CSVLogger(save_dir="logs/", name=name)
     # trainer = Trainer(logger=[tb_logger, comet_logger])
@@ -573,5 +573,5 @@ def test():
 
 if __name__ == "__main__":
     torch.set_float32_matmul_precision('high')
-    # train()
-    test()
+    train()
+    # test()

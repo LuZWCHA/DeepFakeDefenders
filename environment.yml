@@ -1,4 +1,4 @@
-name: classify
+name: deepfake
 channels:
   - conda-forge
   - defaults
@@ -174,4 +174,4 @@ dependencies:
       - werkzeug==3.0.3
       - yacs==0.1.8
       - yarl==1.9.4
-prefix: /root/miniconda3/envs/classify
+prefix: /root/miniconda3/envs/deepfake

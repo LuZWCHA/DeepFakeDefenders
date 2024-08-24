@@ -1,7 +1,21 @@
-# Runtime
+# Deepfake Video
+This is naf team's codes.
 
-## Software Env
+## Software Environment
+
+### System information 
+docker image: [11.6.2-cudnn8-devel-ubuntu20.04](https://hub.docker.com/r/nvidia/cuda/tags?page=&page_size=&ordering=&name=11.6.2-cudnn8-devel-ubuntu20.04)
+``` bash
+docker pull nvidia/cuda:11.6.2-cudnn8-devel-ubuntu20.04
+```
+### Conda environment
+> Note: 最好手动安装pytorch-gpu保证可复现性。
+``` bash
+# Please install torch manually
 conda env create -f environment.yml
+# Swich to deepfake env
+conda activate deepfake
+```
 
 ## GPUs
 A100 80G x 2
@@ -29,7 +43,7 @@ path/to/dataset
 ```
 
 The **csv** file contents looks like:
-```python
+```csv
 video_name,target
 4663658dbe76be9de4d616b573546a0c.mp4,0
 8fedbd1856eb89741d7488247f05d7e8.mp4,0
@@ -37,6 +51,22 @@ video_name,target
 7d27e58b3a8273a7ee5f9efd5440fd4f.mp4,0
 ...
 ```
+
+## Run Scrips
+
+*Recommend!*
+``` bash
+python train_video_demo.py path/to/dataset_root -m train
+```
+\
+Or run the original train file (in my exp stage) ```train_video.py```
+(Please **modify** the **dataset path** [see #DeepFakeDataModule._DATA_PATH])
+``` bash
+python train_video.py
+```
+
+The output logs'/checkpoints' location is ```logs/Dual-MViT-B/``` .
+
 
 # Test
 Many test ways are provide here, test by mulit-process datasetloader or a predictor one by one(much slower, 6x time on my hardware...)
@@ -78,7 +108,7 @@ This is an ```example.py``` to show how to use the predictor, the details is in 
 
 from predict_one_by_one import VideoPredictor
 from pathlib import Path
-import tqdm, os, glob, pandass as pd
+import tqdm, os, glob, pandas as pd
 
 # Video Director 
 all_video_dir = "path/to/videos"
@@ -108,12 +138,28 @@ for idx, i in tqdm.tqdm(enumerate(videos), leave=False, position=0, total=l):
     # Save to csv file
     submit_csv["video_name"].append(Path(i).name)
     submit_csv["y_pred"].append(res)
+    print(res)
     if idx % 10000 == 0 and idx > 0:
         pd.DataFrame(submit_csv).to_csv(f"val_submit_{idx:06}.csv", index=False)
 
 pd.DataFrame(submit_csv).to_csv(output_csv, index=False)
 
 ```
+## Check the results
+Below results is from public testset, compare the results to confirm the test steps.
+> 通过下方缩略文档来检查环境和模型推理是否正确。以下为公开测试集部分数据的本地推理结果。请检查每个输出的误差来确认硬件和软件环境是否会导致较大的精度误差。
+``` csv
+video_name,y_pred
+ebda0cb17c9bc4e9818c9250360b7909.mp4,0.9993643164634703
+639954dde40d384708f24213dca21b11.mp4,0.2968801259994507
+a8267d3bb58a7f69b996183bb5d9f568.mp4,0.9998409748077391
+d3467d19d8b0f791388fa7f50a980f4c.mp4,0.9989484945933024
+966308f62a9d14880ef1105b145c7ca7.mp4,0.9989816546440125
+2ca207880bd45c645dbf5e566b8e91f3.mp4,0.5712887048721313
+cb1efe6f50549d684e10ca95b07735fb.mp4,0.7863392929236094
+9979928af98e667907667ae6502f0f16.mp4,0.9999123811721802
+```
+
 
 ## Test checkpoint
 best checkpoint on public testset, ROC-AUC: 0.722 \
