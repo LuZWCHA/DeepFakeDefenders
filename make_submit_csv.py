@@ -16,5 +16,5 @@ def convert2submition_image(results):
     df[["img_name", "y_pred"]].to_csv("val_submit_image.csv", index=False)
 
 if __name__ == "__main__":
-    convert2submition("_merged_av_res_testset.csv")
+    convert2submition("_merged_av_res.csv")
     # convert2submition_image("work_dir/EfficientNet_B0_NPR_GRAD_deepfake_c2_002_test/results.csv")

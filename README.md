@@ -71,7 +71,7 @@ The output logs'/checkpoints' location is ```logs/Dual-MViT-B/``` .
 # Test
 Some test codes are provided here, [test by mulit-process datasetloader] or [a predictor one by one(much slower, 6x time on my hardware...)]
 ## Test by datasetloader
-
+Fast but may not easy to compute model performance.
 ### Prepare the dataset dir
 ``` bash
 path/to/dataset
@@ -96,12 +96,21 @@ Download the BaiduDisk's checkpoint (scroll down the the download link) and put 
 
 ### Run script
 ``` bash
+# Test
 python train_video_demo.py path/to/dataset_root -m test -c path/to/checkpoint
+# Generate the submit csv
+python make_submit_csv.py
 ```
+The final output is named ```val_submit.csv```
+
 
 ## Test by predictor (One by One Example)
-This is an ```example.py``` (this file is under the project root) to show how to use the predictor, the details is in ```predict_one_by_one.py```
+This is an ```example.py``` (this file is under the project root) to show how to use the predictor, the details is in ```predict_one_by_one.py```. \
 
+**Recommend!**
+Please modify the real path
+
+> 请修改视频路径，模型参数路径，输出默认为 val_submit_final.csv 位于项目根目录
 ``` python
 # example.py
 
