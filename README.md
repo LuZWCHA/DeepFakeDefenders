@@ -21,8 +21,7 @@ conda activate deepfake
 A100 80G x 2
 
 ## Train
-This part will describ the way to reproduce the model training process.
-My model trained effect from the server souce lack, I trained the model follow to speed up my experiments:
+This part will describe the way to reproduce the model training process:
 1. Pretrain a model 1 epoch on trainset with any aguments [epoch=0 step=1260];
 2. Load the model as pretrained, and add many different transforms (Audio-Visual offset and so on), train 5 epoch
 
