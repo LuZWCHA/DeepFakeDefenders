@@ -53,7 +53,7 @@ video_name,target
 
 ### Run Scrips
 
-***Recommend!***
+**Recommend!**
 ``` bash
 python train_video_demo.py path/to/dataset_root -m train
 ```
@@ -104,9 +104,10 @@ The final output is named ```val_submit.csv```
 
 
 ## Test by predictor (One by One Example)
-This is an ```example.py``` (this file is under the project root) to show how to use the predictor, the details is in ```predict_one_by_one.py```. \
+This is an ```example.py``` (this file is under the project root) to show how to use the predictor, the details is in ```predict_one_by_one.py```.
 
 **Recommend!**
+\
 Please modify the real path
 
 > 请修改视频路径，模型参数路径，输出默认为 val_submit_final.csv 位于项目根目录
