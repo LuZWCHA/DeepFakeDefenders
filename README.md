@@ -118,7 +118,7 @@ from predict_one_by_one import VideoPredictor
 from pathlib import Path
 import tqdm, os, glob, pandas as pd
 
-# Video Director 
+# Video directory 
 all_video_dir = "path/to/videos"
 # Test checkpoint
 checkpoint = "path/to/checkpoint"
