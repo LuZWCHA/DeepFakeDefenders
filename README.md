@@ -91,7 +91,7 @@ video_name,target
 ```
 
 ### Prepare checkpoint
-Download the BaiduDisk's checkpoint (scroll down the the download link) and put into the project root. Asume the path is ```path/to/checkpoint```
+Download the BaiduYunDisk's checkpoint (scroll down to the the download link) and put into the project root. Asume the path is ```path/to/checkpoint```
 
 ### Run script
 ``` bash
