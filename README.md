@@ -67,11 +67,11 @@ python train_video.py
 The output logs'/checkpoints' location is ```logs/Dual-MViT-B/``` .
 
 
-# Test
+## Test
 Some test codes are provided here, [test by mulit-process datasetloader] or [a predictor one by one(much slower, 6x time on my hardware...)]
-## Test by datasetloader
+### Test by datasetloader
 Fast but may not easy to compute model performance.
-### Prepare the dataset dir
+#### Prepare the dataset dir
 ``` bash
 path/to/dataset
 |-- test.csv
@@ -90,10 +90,10 @@ video_name,target
 ...
 ```
 
-### Prepare checkpoint
+#### Prepare checkpoint
 Download the BaiduYunDisk's checkpoint (scroll down to the the download link) and put into the project root. Asume the path is ```path/to/checkpoint```
 
-### Run script
+#### Run script
 ``` bash
 # Test
 python train_video_demo.py path/to/dataset_root -m test -c path/to/checkpoint
@@ -103,7 +103,7 @@ python make_submit_csv.py
 The final output is named ```val_submit.csv```
 
 
-## Test by predictor (One by One Example)
+### Test by predictor (One by One Example)
 This is an ```example.py``` (this file is under the project root) to show how to use the predictor, the details is in ```predict_one_by_one.py```.
 
 **Recommend!**
@@ -153,7 +153,7 @@ for idx, i in tqdm.tqdm(enumerate(videos), leave=False, position=0, total=l):
 pd.DataFrame(submit_csv).to_csv(output_csv, index=False)
 
 ```
-## Check the results
+### Check the results
 The follow results are test in my local server on public testset, compare the results to confirm the test steps.
 > 通过下方缩略文档来检查环境和模型推理是否正确。以下为公开测试集部分数据的本地推理结果。请检查每个输出的误差来确认硬件和软件环境是否会导致较大的精度误差。
 ``` sql
@@ -169,7 +169,7 @@ cb1efe6f50549d684e10ca95b07735fb.mp4,0.7863392929236094
 ```
 
 
-## Test checkpoint
+### Test checkpoint
 best checkpoint on public testset, ROC-AUC: 0.722 \
 https://pan.baidu.com/s/1vl3wWNbzuVp737zzwSqk1w?pwd=6xme
 
